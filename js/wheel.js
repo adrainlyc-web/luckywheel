@@ -79,10 +79,7 @@
 
       if (data.status === 'already_claimed') {
         alreadySpun = true;
-        spinTo(data.prizeIndex || 0);
-        setTimeout(() => {
-          setMessage(`You've already claimed your prize: ${data.prize}. Each phone number can only claim once.`, 'info');
-        }, 4300);
+        setMessage(`You've already claimed your prize: ${data.prize}. Each phone number can only claim once.`, 'info');
         return;
       }
 

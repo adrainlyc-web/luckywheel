@@ -1,7 +1,11 @@
-const { PRIZES } = require('../config/prizes');
+const { query, ensureSchema } = require('../lib/db');
 
-module.exports = (req, res) => {
-  res.status(200).json({
-    prizes: PRIZES.map((p) => ({ label: p.label, color: p.color })),
-  });
+module.exports = async (req, res) => {
+  await ensureSchema();
+
+  const result = await query(
+    'SELECT label, color FROM prizes ORDER BY sort_order ASC'
+  );
+
+  res.status(200).json({ prizes: result.rows });
 };

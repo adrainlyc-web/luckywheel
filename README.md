@@ -10,11 +10,12 @@ admin dashboard that shows who has claimed and who hasn't.
   and press "Spin to Claim."
   - If the phone number is **not on your list** → "not eligible" message, no spin.
   - If it's on the list and **hasn't claimed yet** → the server picks a prize
-    (weighted random, see `config/prizes.js`) and the wheel spins to show it.
-    That phone number is now locked.
+    (weighted random, based on whatever you've set in the admin's Prize
+    Settings panel) and the wheel spins to show it. That phone number is now locked.
   - If it's on the list and **already claimed** → shows their same prize again
     (no new spin), so they can't claim twice.
 - **`admin.html`** — password-protected dashboard where you:
+  - Set each prize's name, color, and win rate (Prize Settings panel).
   - Paste in the list of eligible customers (name + phone).
   - See a live table of who's claimed vs. still pending, with counts at the top.
 - The prize decision always happens on the server (`api/claim.js`), never in
@@ -62,9 +63,15 @@ admin dashboard that shows who has claimed and who hasn't.
 
 ## Customizing prizes
 
-Edit `config/prizes.js` — each entry is `{ label, color, weight }`. `weight`
-sets the odds (higher weight = more likely). You can add, remove, or rename
-prizes freely; the wheel and the server always stay in sync automatically.
+Open `/admin.html` and use the **Prize Settings** panel — set each prize's
+name, wheel color, and win weight (higher weight = more likely to be won;
+the live "Chance" column shows the resulting percentage), then click
+**Save Prize Settings**. Add or remove prizes with the +/✕ buttons. Changes
+take effect immediately for the next spin — no redeploy needed.
+
+`config/prizes.js` is only used once, the very first time the app runs, to
+fill in starting defaults. After that it's never read again — all prize data
+lives in the database.
 
 ## Notes
 

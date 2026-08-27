@@ -248,3 +248,42 @@ th {
   background: var(--pending-bg);
   color: var(--pending);
 }
+
+#prizes-table input[type="text"] {
+  width: 140px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1.5px solid #ddd;
+  font-size: 0.9rem;
+}
+
+#prizes-table input[type="number"] {
+  width: 70px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1.5px solid #ddd;
+  font-size: 0.9rem;
+}
+
+#prizes-table input[type="color"] {
+  width: 40px;
+  height: 32px;
+  padding: 0;
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.chance-cell {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.remove-prize-btn {
+  background: none;
+  border: none;
+  color: #b91c1c;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+}

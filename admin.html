@@ -39,6 +39,33 @@
   </section>
 
   <section class="panel">
+    <h2>Prize Settings</h2>
+    <p class="hint">
+      Set each prize's name, wheel color, and win rate. Win rate is relative — e.g. if one prize
+      has weight 50 and another has weight 5, the first is 10x more likely. Percentages update as you type.
+    </p>
+    <div class="table-wrap">
+      <table id="prizes-table">
+        <thead>
+          <tr>
+            <th>Prize Name</th>
+            <th>Color</th>
+            <th>Win Weight</th>
+            <th>Chance</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="prizes-body"></tbody>
+      </table>
+    </div>
+    <div class="panel-actions">
+      <button id="add-prize-btn" class="btn-secondary">+ Add Prize</button>
+      <button id="save-prizes-btn" class="btn-primary">Save Prize Settings</button>
+      <span id="prizes-result" class="upload-result"></span>
+    </div>
+  </section>
+
+  <section class="panel">
     <h2>Add Eligible Customers</h2>
     <p class="hint">
       Paste one customer per line, as <code>name, phone</code> (name is optional — <code>phone</code> alone also works).

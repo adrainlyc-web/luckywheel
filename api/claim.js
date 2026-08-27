@@ -1,5 +1,5 @@
 const { query, ensureSchema, normalizePhone } = require('../lib/db');
-const { pickPrizeIndex, PRIZES } = require('../config/prizes');
+const { pickPrizeIndex } = require('../lib/prizeLogic');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
@@ -34,8 +34,17 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const prizeIndex = pickPrizeIndex();
-  const prize = PRIZES[prizeIndex].label;
+  const prizesResult = await query(
+    'SELECT label, weight FROM prizes ORDER BY sort_order ASC'
+  );
+  const prizes = prizesResult.rows;
+  if (prizes.length === 0) {
+    res.status(500).json({ error: 'No prizes are configured yet.' });
+    return;
+  }
+
+  const prizeIndex = pickPrizeIndex(prizes);
+  const prize = prizes[prizeIndex].label;
 
   const updated = await query(
     `UPDATE entries
