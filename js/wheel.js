@@ -27,7 +27,10 @@
       const label = document.createElement('div');
       label.className = 'wheel-label';
       const midAngle = i * segAngle + segAngle / 2;
-      label.style.transform = `rotate(${midAngle}deg)`;
+      // The label bar's un-rotated resting direction points right (east, i.e.
+      // 90deg in the "0deg = top, clockwise" convention conic-gradient uses),
+      // so subtract 90 here to line the label up with its actual color wedge.
+      label.style.transform = `rotate(${midAngle - 90}deg)`;
       label.textContent = p.label;
       wheelEl.appendChild(label);
     });
