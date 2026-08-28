@@ -1,5 +1,9 @@
 (function () {
+  const CONFETTI_COLORS = ['#f59e0b', '#7c3aed', '#a855f7', '#fff6d6', '#ffffff'];
+  const BULB_COUNT = 16;
+
   const wheelEl = document.getElementById('wheel');
+  const bulbRingEl = document.getElementById('bulb-ring');
   const formEl = document.getElementById('claim-form');
   const phoneEl = document.getElementById('phone');
   const spinBtn = document.getElementById('spin-btn');
@@ -23,6 +27,15 @@
       .join(', ');
     wheelEl.style.background = `conic-gradient(${gradientStops})`;
 
+    for (let i = 0; i < n; i++) {
+      const divider = document.createElement('div');
+      divider.className = 'wheel-divider';
+      // Same 90deg correction as labels below — the bar's resting direction
+      // points east, but conic-gradient boundaries are measured from north.
+      divider.style.transform = `rotate(${i * segAngle - 90}deg)`;
+      wheelEl.appendChild(divider);
+    }
+
     list.forEach((p, i) => {
       const label = document.createElement('div');
       label.className = 'wheel-label';
@@ -34,6 +47,35 @@
       label.textContent = p.label;
       wheelEl.appendChild(label);
     });
+  }
+
+  function buildBulbRing() {
+    const wrapSize = bulbRingEl.offsetWidth;
+    const center = wrapSize / 2;
+    const radius = center - 4;
+    for (let i = 0; i < BULB_COUNT; i++) {
+      const angle = (i * 360) / BULB_COUNT;
+      const rad = (angle * Math.PI) / 180;
+      const bulb = document.createElement('div');
+      bulb.className = 'bulb';
+      bulb.style.left = center + radius * Math.sin(rad) + 'px';
+      bulb.style.top = center - radius * Math.cos(rad) + 'px';
+      bulb.style.animationDelay = (i % 2 === 0 ? 0 : 0.8) + 's';
+      bulbRingEl.appendChild(bulb);
+    }
+  }
+
+  function launchConfetti() {
+    for (let i = 0; i < 60; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+      piece.style.animationDelay = Math.random() * 0.4 + 's';
+      piece.style.animationDuration = 2 + Math.random() * 1.2 + 's';
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), 3600);
+    }
   }
 
   function spinTo(index) {
@@ -91,6 +133,7 @@
         spinTo(data.prizeIndex);
         setTimeout(() => {
           setMessage(`🎉 You won: ${data.prize}! Show this screen to claim your bonus.`, 'success');
+          launchConfetti();
         }, 4300);
         return;
       }
@@ -103,5 +146,6 @@
     }
   });
 
+  buildBulbRing();
   loadPrizes();
 })();
